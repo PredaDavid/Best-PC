@@ -1,0 +1,83 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<style>
+    .room-container {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+
+</style>
+
+
+<h1>{{post.title}}</h1>
+<p>By {{post.author}} on {{post.date_posted}}</p>
+
+{{ post.content }}
+
+<div class="room-container">
+    <div class="comment-wrapper">
+        <h3>Comments</h3>
+
+        {% if request.user.is_authenticated %}
+
+        <h4>Like this post</h4>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% if had_liked == True %}
+            <input type="submit" name="dislike" value="dislike">
+            {% else %}
+            <input type="submit" name="like" value="like">
+            {% endif %}
+        </form>
+
+        <div class="comment-form">
+            <h4>Leave a comment</h4>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="text" name="content" placeholder="Write your comment here..."/>
+                <input type="submit" name="comment" value="post">
+            </form>
+    
+        </div>
+        <br>
+        {% endif %}
+
+        {% for comment in comments %}
+        <div class="comment">
+            {% if request.user == comment.user or request.user.is_superuser%}
+            <a href="{% url 'delete-comment' comment.id %}">Delete</a>
+            {% endif %}
+            <small>@{{comment.user}} - {{comment.created|timesince}} ago</small>
+            <p>{{comment.content}}</p>
+            <hr>
+        </div>
+        {% endfor %}
+
+
+
+
+    </div>
+
+    <div>
+        <h3>Liked by 👍</h3>
+        <hr>
+
+        {% for user in likes %}
+        <div>
+            <p>@{{user.username}}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+
+</div>
+
+
+
+{% endblock content %}
+

@@ -1,0 +1,60 @@
+{% extends "main.html" %}
+{% block content %}
+
+<style>
+    .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+
+<div class="home-container">
+
+    <div>
+        <h3>Browse Topics</h3>
+
+        <div>
+            <a href="{% url 'home'  %}">All</a>
+        </div>
+        {% for post_topic in post_topics %}
+
+        <div>
+            <a href="{% url 'home'  %}?q={{post_topic.name}}">{{ post_topic.name }}</a>
+        </div>
+
+        {% endfor %}
+    </div>
+
+    <div>
+        <h5>{{posts_count}} posts found</h5>
+
+        {% if request.user.is_superuser %}
+        <a href = "{% url 'create-post' %}">Create new post</a>
+        {% endif %}
+        
+        
+        <hr>
+
+            {% for post in posts %}
+                <li><a href="{% url 'post' post.id %}">{{ post.title }} -- ID: {{post.id}}</a> 
+                    {% if request.user == post.author %}
+                    
+                    -- 
+                    <a href="{% url 'update-post' post.id %}">UPDATE POST</a> ||
+                    <a href="{% url 'delete-post' post.id %}">Delete POST</a>
+                    
+                    {% endif %}
+                </li>
+            {% endfor %}
+    </div>
+
+
+
+
+</div>
+
+
+
+
+{% endblock content %}
+
