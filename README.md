@@ -8,9 +8,11 @@
 
 ## How to run the project?
 
-- Firstly we need to create a virtual environment and then activate it.
+- Firstly we need install the `virtualenv` module in order to create a virtual environment and then activate it.
 
 ```bash
+pip install virtualenv
+
 virtualenv env
 
 env\scripts\activate
