@@ -1,0 +1,16 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<h2>Choose a part</h2>
+
+{% for part in parts %}
+    {% comment %} <a href="{% url 'choose-part' part %}">{{ part }}</a> {% endcomment %}
+    <p>{{ part }}</p>
+    <a href="{% url 'add-part' type part.id %}">Select</a>
+    <br>
+{% endfor %}
+
+
+
+{% endblock %}

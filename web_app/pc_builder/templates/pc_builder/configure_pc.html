@@ -1,0 +1,47 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<h2>Configure PC</h2>
+
+<hr>
+<h3>Choose a CPU</h3>
+<a href={% url 'choose-part' 'cpu'%}>Choose part</a>
+
+<hr>
+<h3>Choose a Motherboard</h3>
+<a href={% url 'choose-part' 'mobo'%}>Choose part</a>
+
+<hr>
+<h3>Choose a GPU</h3>
+<a href={% url 'choose-part' 'gpu'%}>Choose part</a>
+
+<hr>
+<h3>Choose a Cooler</h3>
+<a href={% url 'choose-part' 'cooler'%}>Choose part</a>
+
+<hr>
+<h3>Choose a RAM</h3>
+<a href={% url 'choose-part' 'ram'%}>Choose part</a>
+
+<hr>
+<h3>Choose a Storage</h3>
+<a href={% url 'choose-part' 'storage'%}>Choose part</a>
+
+<hr>
+<h3>Choose a Power Supply</h3>
+<a href={% url 'choose-part' 'psu'%}>Choose part</a>
+
+<hr>
+<h3>Choose a Case</h3>
+<a href={% url 'choose-part' 'case'%}>Choose part</a>
+
+<hr>
+<h3>Total msrp of the build: $0</h3>
+
+<hr>
+
+
+
+
+{% endblock %}
