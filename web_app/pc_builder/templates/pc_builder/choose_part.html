@@ -6,9 +6,8 @@
 
 {% for part in parts %}
     {% comment %} <a href="{% url 'choose-part' part %}">{{ part }}</a> {% endcomment %}
-    <p>{{ part }}</p>
-    <a href="{% url 'add-part' type part.id %}">Select</a>
-    <br>
+    <p>{{ part }} --- <a href="{% url 'add-part' type part.id %}">Select</a>
+    </p>
 {% endfor %}
 
 

@@ -36,7 +36,7 @@
         <hr>
 
             {% for post in posts %}
-                <li><a href="{% url 'post' post.id %}">{{ post.title }} -- ID: {{post.id}}</a> 
+                <li><a href="{% url 'post' post.id %}">{{ post.title }}</a> 
                     {% if request.user == post.author %}
                     
                     -- 

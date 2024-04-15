@@ -18,12 +18,14 @@ COMPONENT_TYPE = {
     'storage': 'Storage',
     'psu': 'PowerSupply',
     'case': 'Case',
+    'cpu_cooler': 'CpuCooler',
 }
 
 MANUFACTURER = {
     'intel': 'Intel',
     'amd': 'AMD',
-    'nvidia': 'Nvidia'
+    'nvidia': 'Nvidia',
+    'none': 'None',
 }
 
 # asus, gigabyte, msi, asrock, evga
@@ -45,7 +47,7 @@ class ComputerComponent(models.Model):
     
     type = ""
     
-    manufacturer = models.CharField(max_length=6,choices=MANUFACTURER, null=True)
+    manufacturer = models.CharField(max_length=6,choices=MANUFACTURER,default=MANUFACTURER['none'], null=True)
     
     brand = models.ForeignKey(Brand, on_delete=models.SET_NULL, null=True)
     
@@ -90,6 +92,12 @@ class GPU(ComputerComponent):
     # boost_clock = models.FloatField()
     tdp = models.IntegerField()
     
+class CpuCooler(ComputerComponent):
+    type = COMPONENT_TYPE['cpu_cooler']
+    
+    # fan_rpm = models.IntegerField()
+    # noise_level = models.IntegerField()
+    # water_cooled = models.BooleanField()
     
 class RAM(ComputerComponent):
     type = COMPONENT_TYPE['ram']
@@ -102,21 +110,21 @@ class RAM(ComputerComponent):
     # ecc = models.BooleanField()
     
     
-class Storage(models.Model):
+class Storage(ComputerComponent):
     type = COMPONENT_TYPE['storage']
     
     capacity = models.IntegerField()
     # form_factor = models.CharField(max_length=100)
     # interface = models.CharField(max_length=100)
     
-class PowerSupply(models.Model):
+class PowerSupply(ComputerComponent):
     type = COMPONENT_TYPE['psu']
     
     wattage = models.IntegerField()
     # efficiency = models.CharField(max_length=100)
     # modular = models.BooleanField()
     
-class Case(models.Model):
+class Case(ComputerComponent):
     type = COMPONENT_TYPE['case']
 
     # form_factor = models.CharField(max_length=100)
@@ -131,11 +139,27 @@ class Configuration(models.Model):
     cpu = models.ForeignKey(Processor, on_delete=models.SET_NULL, null=True)
     mobo = models.ForeignKey(Motherboard, on_delete=models.SET_NULL, null=True)
     gpu = models.ForeignKey(GPU, on_delete=models.SET_NULL, null=True)
+    cpu_cooler = models.ForeignKey(CpuCooler, on_delete=models.SET_NULL, null=True)
     ram = models.ManyToManyField(RAM)
     storage = models.ManyToManyField(Storage)
     psu = models.ForeignKey(PowerSupply, on_delete=models.SET_NULL, null=True)
     case = models.ForeignKey(Case, on_delete=models.SET_NULL, null=True)
     
+    msrp_price = models.FloatField(default=0)
+    
     def __str__(self):
         return self.name
+    
+    def calculate_msrp_price(self):
+        msrp_price = 0
+        components = [self.cpu, self.mobo, self.gpu, self.cpu_cooler, self.psu, self.case]
+        for component in components:
+            if component:
+                msrp_price += component.msrp_price
+        for ram in self.ram.all():
+            msrp_price += ram.msrp_price
+        for storage in self.storage.all():
+            msrp_price += storage.msrp_price
+        self.msrp_price = msrp_price
+        self.save()
     

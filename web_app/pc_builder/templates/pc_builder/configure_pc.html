@@ -6,38 +6,59 @@
 
 <hr>
 <h3>Choose a CPU</h3>
+<p>{{ configuration.cpu }} --- ${{configuration.cpu.msrp_price}}</p>
 <a href={% url 'choose-part' 'cpu'%}>Choose part</a>
+<a href={% url 'remove-part' 'cpu'%}>Remove part</a>
 
 <hr>
 <h3>Choose a Motherboard</h3>
+<p>{{ configuration.mobo }} --- ${{configuration.mobo.msrp_price}}</p>
 <a href={% url 'choose-part' 'mobo'%}>Choose part</a>
+<a href={% url 'remove-part' 'mobo'%}>Remove part</a>
 
 <hr>
 <h3>Choose a GPU</h3>
+<p>{{ configuration.gpu }} --- ${{configuration.gpu.msrp_price}}</p>
 <a href={% url 'choose-part' 'gpu'%}>Choose part</a>
+<a href={% url 'remove-part' 'gpu'%}>Remove part</a>
 
 <hr>
 <h3>Choose a Cooler</h3>
-<a href={% url 'choose-part' 'cooler'%}>Choose part</a>
+<p>{{ configuration.cpu_cooler }} --- ${{configuration.cpu_cooler.msrp_price}}</p>
+<a href={% url 'choose-part' 'cpu_cooler'%}>Choose part</a>
+<a href={% url 'remove-part' 'cpu_cooler'%}>Remove part</a>
 
 <hr>
 <h3>Choose a RAM</h3>
+{% for ram in configuration.ram.all %}
+<p>{{ ram }}</p>
+
+{% endfor %}
 <a href={% url 'choose-part' 'ram'%}>Choose part</a>
 
 <hr>
 <h3>Choose a Storage</h3>
+{% for storage in configuration.storage.all %}
+<p>{{ storage }}</p>
+
+{% endfor %}
 <a href={% url 'choose-part' 'storage'%}>Choose part</a>
 
 <hr>
 <h3>Choose a Power Supply</h3>
+<p>{{ configuration.psu }} --- ${{configuration.psu.msrp_price}}</p>
 <a href={% url 'choose-part' 'psu'%}>Choose part</a>
+<a href={% url 'remove-part' 'psu'%}>Remove part</a>
+
 
 <hr>
 <h3>Choose a Case</h3>
+<p>{{ configuration.case }} -- ${{configuration.case.msrp_price}}</p>
 <a href={% url 'choose-part' 'case'%}>Choose part</a>
+<a href={% url 'remove-part' 'case'%}>Remove part</a>
 
 <hr>
-<h3>Total msrp of the build: $0</h3>
+<h3>Total msrp of the build: $ {{ configuration.msrp_price }} </h3>
 
 <hr>
 
